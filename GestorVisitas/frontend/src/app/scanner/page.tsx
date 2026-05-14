@@ -67,9 +67,23 @@ export default function ScannerPage() {
         <div className="grid gap-8 md:grid-cols-2 flex-1">
           {/* Lado del Escáner */}
           <div className="flex flex-col gap-6">
-            <div className="flex-1 bg-[#14171C]/80 backdrop-blur-xl border border-white/10 rounded-3xl p-2 shadow-2xl relative">
-              <div className="absolute inset-0 bg-blue-500/5 blur-xl rounded-3xl pointer-events-none"></div>
-              <div className="relative z-10 h-full">
+            <div className="flex-1 bg-[#14171C]/80 backdrop-blur-xl border border-white/10 rounded-3xl p-2 shadow-2xl relative overflow-hidden">
+              <div className="absolute inset-0 bg-blue-500/5 blur-xl pointer-events-none z-0"></div>
+              
+              {/* Crosshair Overlay */}
+              <div className="absolute inset-0 pointer-events-none z-20 flex items-center justify-center">
+                <div className="w-48 h-48 sm:w-64 sm:h-64 border-2 border-blue-500/20 relative">
+                  <div className="absolute top-0 left-0 w-6 h-6 border-t-2 border-l-2 border-blue-400"></div>
+                  <div className="absolute top-0 right-0 w-6 h-6 border-t-2 border-r-2 border-blue-400"></div>
+                  <div className="absolute bottom-0 left-0 w-6 h-6 border-b-2 border-l-2 border-blue-400"></div>
+                  <div className="absolute bottom-0 right-0 w-6 h-6 border-b-2 border-r-2 border-blue-400"></div>
+                  
+                  {/* Laser Line */}
+                  <div className="absolute left-0 w-full h-[2px] bg-blue-400 shadow-[0_0_15px_rgba(59,130,246,0.9)] scan-laser z-30"></div>
+                </div>
+              </div>
+
+              <div className="relative z-10 h-full rounded-2xl overflow-hidden bg-black">
                 <QrScanner onScanSuccess={handleScanSuccess} />
               </div>
             </div>
@@ -128,16 +142,29 @@ export default function ScannerPage() {
                 </p>
 
                 {validationResult.valid && validationResult.visitor && (
-                  <div className="mt-8 w-full bg-black/40 rounded-2xl p-4 md:p-6 text-left border border-white/10 relative overflow-hidden backdrop-blur-md">
-                    <div className="absolute -right-4 -bottom-4 opacity-5">
-                      <UserCheck className="w-48 h-48 text-white" />
+                  <div className="mt-8 w-full bg-gradient-to-tr from-emerald-950/60 via-[#14171C]/90 to-[#14171C]/90 rounded-2xl p-6 text-left border-t border-l border-emerald-500/40 border-r border-b border-white/10 relative overflow-hidden backdrop-blur-xl shadow-[inset_0_0_30px_rgba(16,185,129,0.1),_0_10px_30px_rgba(0,0,0,0.5)]">
+                    {/* Holographic lines effect */}
+                    <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-[0.03] mix-blend-overlay"></div>
+                    <div className="absolute -right-8 -bottom-8 opacity-10 rotate-12">
+                      <UserCheck className="w-56 h-56 text-emerald-300" />
                     </div>
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/10 blur-3xl rounded-full"></div>
                     
-                    <div className="flex flex-col md:flex-row items-center md:items-start gap-4 md:gap-6 mb-6 relative z-10 text-center md:text-left">
-                      <img src={validationResult.visitor.photo} alt="Visitor" className="w-20 h-20 rounded-full border-2 border-emerald-500/50 shadow-[0_0_20px_rgba(16,185,129,0.3)] object-cover" />
-                      <div>
-                        <p className="text-xl md:text-2xl font-bold text-white tracking-tight">{validationResult.visitor.name}</p>
-                        <p className="text-xs md:text-sm font-mono text-emerald-400 mt-1">ID: {validationResult.visitor.document}</p>
+                    <div className="flex flex-col md:flex-row items-center md:items-start gap-5 mb-6 relative z-10 text-center md:text-left">
+                      <div className="relative">
+                        <div className="absolute inset-0 bg-emerald-500/20 blur-md rounded-full animate-pulse"></div>
+                        <img src={validationResult.visitor.photo} alt="Visitor" className="w-24 h-24 rounded-full border-2 border-emerald-400/60 shadow-[0_0_20px_rgba(16,185,129,0.4)] object-cover relative z-10" />
+                        <div className="absolute -bottom-2 -right-2 bg-emerald-500 text-black text-[10px] font-black px-2 py-0.5 rounded-full border border-black z-20">VERIFIED</div>
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-xl md:text-2xl font-black text-white tracking-tight uppercase">{validationResult.visitor.name}</p>
+                        <p className="text-xs md:text-sm font-mono text-emerald-400 mt-1 flex items-center gap-2 justify-center md:justify-start">
+                          <Fingerprint className="w-4 h-4 opacity-70" /> {validationResult.visitor.document}
+                        </p>
+                        <div className="mt-3 inline-flex items-center gap-2 bg-black/40 px-3 py-1.5 rounded-lg border border-white/5">
+                           <ShieldCheck className="w-4 h-4 text-emerald-400" />
+                           <span className="text-[10px] text-emerald-400 font-bold uppercase tracking-widest">Clearance: Level 2</span>
+                        </div>
                       </div>
                     </div>
                     

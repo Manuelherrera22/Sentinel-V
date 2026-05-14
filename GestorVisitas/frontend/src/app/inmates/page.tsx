@@ -6,11 +6,14 @@ import { Search, ShieldAlert, CheckCircle2, MoreVertical, Shield, FileText } fro
 
 export default function InmatesPage() {
   const [searchTerm, setSearchTerm] = useState('');
+  const [filterLevel, setFilterLevel] = useState('All');
 
-  const filteredInmates = mockInmates.filter(inmate => 
-    inmate.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-    inmate.id.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredInmates = mockInmates.filter(inmate => {
+    const matchesSearch = inmate.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                          inmate.id.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesFilter = filterLevel === 'All' || inmate.securityLevel === filterLevel;
+    return matchesSearch && matchesFilter;
+  });
 
   return (
     <div className="p-4 md:p-10 animate-in fade-in duration-700">
@@ -35,6 +38,14 @@ export default function InmatesPage() {
             />
           </div>
         </header>
+
+        {/* Filters */}
+        <div className="flex gap-3 mb-6 md:mb-8 overflow-x-auto pb-2 custom-scrollbar">
+          <button onClick={() => setFilterLevel('All')} className={`px-4 py-2 rounded-full text-sm font-bold whitespace-nowrap transition-all ${filterLevel === 'All' ? 'bg-blue-500 text-white' : 'bg-white/5 text-slate-400 border border-white/10 hover:bg-white/10'}`}>All Inmates</button>
+          <button onClick={() => setFilterLevel('High')} className={`px-4 py-2 rounded-full text-sm font-bold whitespace-nowrap transition-all border flex items-center gap-2 ${filterLevel === 'High' ? 'bg-red-500 text-white border-red-500 shadow-[0_0_15px_rgba(239,68,68,0.4)]' : 'bg-red-500/5 text-red-400 border-red-500/20 hover:bg-red-500/20'}`}><Shield className="w-4 h-4"/> High Risk</button>
+          <button onClick={() => setFilterLevel('Medium')} className={`px-4 py-2 rounded-full text-sm font-bold whitespace-nowrap transition-all border flex items-center gap-2 ${filterLevel === 'Medium' ? 'bg-orange-500 text-white border-orange-500 shadow-[0_0_15px_rgba(249,115,22,0.4)]' : 'bg-orange-500/5 text-orange-400 border-orange-500/20 hover:bg-orange-500/20'}`}><Shield className="w-4 h-4"/> Medium Risk</button>
+          <button onClick={() => setFilterLevel('Low')} className={`px-4 py-2 rounded-full text-sm font-bold whitespace-nowrap transition-all border flex items-center gap-2 ${filterLevel === 'Low' ? 'bg-emerald-500 text-white border-emerald-500 shadow-[0_0_15px_rgba(16,185,129,0.4)]' : 'bg-emerald-500/5 text-emerald-400 border-emerald-500/20 hover:bg-emerald-500/20'}`}><Shield className="w-4 h-4"/> Low Risk</button>
+        </div>
 
         <div className="grid gap-6">
           {filteredInmates.map(inmate => {
