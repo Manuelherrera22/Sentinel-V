@@ -54,14 +54,14 @@ export default function ScannerPage() {
   };
 
   return (
-    <div className="p-10 animate-in fade-in duration-700 h-full flex flex-col">
+    <div className="p-4 md:p-10 animate-in fade-in duration-700 h-full flex flex-col">
       <div className="mx-auto max-w-5xl w-full flex-1 flex flex-col">
-        <header className="mb-10 text-center">
+        <header className="mb-6 md:mb-10 text-center">
           <div className="inline-flex items-center justify-center p-3 bg-blue-500/10 rounded-2xl border border-blue-500/20 mb-4">
             <Fingerprint className="w-8 h-8 text-blue-400" />
           </div>
-          <h1 className="text-4xl font-black text-white tracking-tight">Security Checkpoint</h1>
-          <p className="text-slate-400 mt-2 font-medium">Scan visitor temporary pass for verification</p>
+          <h1 className="text-3xl md:text-4xl font-black text-white tracking-tight">Security Checkpoint</h1>
+          <p className="text-slate-400 mt-2 font-medium text-sm md:text-base">Scan visitor temporary pass for verification</p>
         </header>
 
         <div className="grid gap-8 md:grid-cols-2 flex-1">
@@ -79,7 +79,7 @@ export default function ScannerPage() {
               <h3 className="text-xs font-black text-slate-500 uppercase tracking-widest mb-4 flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-slate-500"></span> Developer Tools
               </h3>
-              <div className="flex gap-4">
+              <div className="flex flex-col md:flex-row gap-4">
                 <button 
                   onClick={() => handleScanSuccess('demo-valid')}
                   className="flex-1 bg-white/5 border border-white/10 text-slate-300 hover:bg-emerald-500/20 hover:border-emerald-500/50 hover:text-emerald-300 transition-all text-sm py-3 rounded-xl font-bold tracking-wide cursor-pointer"
@@ -128,16 +128,16 @@ export default function ScannerPage() {
                 </p>
 
                 {validationResult.valid && validationResult.visitor && (
-                  <div className="mt-10 w-full bg-black/40 rounded-2xl p-6 text-left border border-white/10 relative overflow-hidden backdrop-blur-md">
+                  <div className="mt-8 w-full bg-black/40 rounded-2xl p-4 md:p-6 text-left border border-white/10 relative overflow-hidden backdrop-blur-md">
                     <div className="absolute -right-4 -bottom-4 opacity-5">
                       <UserCheck className="w-48 h-48 text-white" />
                     </div>
                     
-                    <div className="flex items-center gap-6 mb-6 relative z-10">
+                    <div className="flex flex-col md:flex-row items-center md:items-start gap-4 md:gap-6 mb-6 relative z-10 text-center md:text-left">
                       <img src={validationResult.visitor.photo} alt="Visitor" className="w-20 h-20 rounded-full border-2 border-emerald-500/50 shadow-[0_0_20px_rgba(16,185,129,0.3)] object-cover" />
                       <div>
-                        <p className="text-2xl font-bold text-white tracking-tight">{validationResult.visitor.name}</p>
-                        <p className="text-sm font-mono text-emerald-400 mt-1">ID: {validationResult.visitor.document}</p>
+                        <p className="text-xl md:text-2xl font-bold text-white tracking-tight">{validationResult.visitor.name}</p>
+                        <p className="text-xs md:text-sm font-mono text-emerald-400 mt-1">ID: {validationResult.visitor.document}</p>
                       </div>
                     </div>
                     

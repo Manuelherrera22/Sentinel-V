@@ -38,18 +38,18 @@ export default function Dashboard() {
   }, []);
 
   return (
-    <div className="p-10 animate-in fade-in duration-700">
+    <div className="p-4 md:p-10 animate-in fade-in duration-700">
       <div className="mx-auto max-w-7xl">
-        <header className="mb-10 flex justify-between items-end">
+        <header className="mb-6 md:mb-10 flex flex-col md:flex-row md:justify-between md:items-end gap-4">
           <div>
-            <h1 className="text-4xl font-black text-white tracking-tight">Command Center</h1>
-            <p className="text-slate-400 mt-2 font-medium flex items-center gap-2">
+            <h1 className="text-3xl md:text-4xl font-black text-white tracking-tight">Command Center</h1>
+            <p className="text-slate-400 mt-2 font-medium flex items-center gap-2 text-sm md:text-base">
               <Activity className="w-4 h-4 text-blue-500" /> Real-time facility monitoring
             </p>
           </div>
-          <div className="text-right">
-             <p className="text-sm font-bold text-slate-500 uppercase tracking-widest">Local Time</p>
-             <p className="text-2xl font-mono text-white mt-1">{timeStr}</p>
+          <div className="text-left md:text-right">
+             <p className="text-xs md:text-sm font-bold text-slate-500 uppercase tracking-widest">Local Time</p>
+             <p className="text-xl md:text-2xl font-mono text-white mt-1">{timeStr}</p>
           </div>
         </header>
 
@@ -107,16 +107,17 @@ export default function Dashboard() {
         <div className="grid gap-6 lg:grid-cols-3">
           {/* Recent Access Feed */}
           <div className="lg:col-span-2 rounded-3xl border border-white/10 bg-[#14171C]/80 backdrop-blur-xl shadow-2xl overflow-hidden flex flex-col h-[550px]">
-            <div className="border-b border-white/5 px-8 py-6 flex justify-between items-center bg-white/[0.02]">
-              <h2 className="text-lg font-bold text-white">Live Access Feed</h2>
-              <div className="flex items-center gap-2 bg-emerald-500/10 px-3 py-1.5 rounded-full border border-emerald-500/20">
+            <div className="border-b border-white/5 px-4 md:px-8 py-6 flex justify-between items-center bg-white/[0.02]">
+              <h2 className="text-base md:text-lg font-bold text-white">Live Access Feed</h2>
+              <div className="flex items-center gap-2 bg-emerald-500/10 px-2 md:px-3 py-1.5 rounded-full border border-emerald-500/20">
                 <span className="animate-pulse h-2 w-2 rounded-full bg-emerald-400"></span>
-                <span className="text-xs font-bold text-emerald-400 tracking-wider uppercase">Live Stream</span>
+                <span className="text-[10px] md:text-xs font-bold text-emerald-400 tracking-wider uppercase">Live Stream</span>
               </div>
             </div>
-            <div className="p-0 overflow-y-auto flex-1 custom-scrollbar">
-              <table className="w-full text-left text-sm">
-                <thead className="bg-[#181B21] sticky top-0 z-10">
+            <div className="p-0 overflow-hidden flex-1 flex flex-col">
+              <div className="w-full overflow-x-auto custom-scrollbar flex-1">
+                <table className="w-full text-left text-sm min-w-[600px]">
+                  <thead className="bg-[#181B21] sticky top-0 z-10">
                   <tr>
                     <th className="px-8 py-4 font-bold text-slate-400 uppercase tracking-wider text-xs">Time</th>
                     <th className="px-8 py-4 font-bold text-slate-400 uppercase tracking-wider text-xs">Visitor</th>
@@ -155,6 +156,7 @@ export default function Dashboard() {
                   ))}
                 </tbody>
               </table>
+              </div>
             </div>
           </div>
 

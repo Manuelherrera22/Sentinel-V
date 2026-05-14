@@ -13,23 +13,23 @@ export default function InmatesPage() {
   );
 
   return (
-    <div className="p-10 animate-in fade-in duration-700">
+    <div className="p-4 md:p-10 animate-in fade-in duration-700">
       <div className="mx-auto max-w-7xl">
-        <header className="mb-10 flex items-end justify-between">
+        <header className="mb-6 md:mb-10 flex flex-col md:flex-row items-start md:items-end justify-between gap-4">
           <div>
-            <h1 className="text-4xl font-black text-white tracking-tight">Inmate Whitelist</h1>
-            <p className="text-slate-400 mt-2 font-medium flex items-center gap-2">
+            <h1 className="text-3xl md:text-4xl font-black text-white tracking-tight">Inmate Whitelist</h1>
+            <p className="text-slate-400 mt-2 font-medium flex items-center gap-2 text-sm md:text-base">
               <FileText className="w-4 h-4 text-blue-500" /> Authorized visitor management
             </p>
           </div>
-          <div className="relative">
+          <div className="relative w-full md:w-auto">
             <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
               <Search className="h-5 w-5 text-slate-500" />
             </div>
             <input 
               type="text" 
               placeholder="Search ID or name..." 
-              className="pl-12 pr-4 py-3 bg-[#14171C]/80 backdrop-blur-md border border-white/10 rounded-xl w-80 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all shadow-xl"
+              className="pl-12 pr-4 py-3 bg-[#14171C]/80 backdrop-blur-md border border-white/10 rounded-xl w-full md:w-80 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all shadow-xl"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
