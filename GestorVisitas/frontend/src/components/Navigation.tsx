@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LayoutDashboard, Users, ScanLine, Shield, Menu, X } from 'lucide-react';
+import { LayoutDashboard, Users, ScanLine, Shield, Menu, X, CalendarClock } from 'lucide-react';
 
 export default function Navigation({ children }: { children: React.ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -55,6 +55,10 @@ export default function Navigation({ children }: { children: React.ReactNode }) 
           <Link href="/inmates" onClick={closeMenu} className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all group ${pathname === '/inmates' ? 'bg-blue-500/10 text-white' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}>
             <Users className={`w-5 h-5 transition-colors ${pathname === '/inmates' ? 'text-blue-400' : 'group-hover:text-blue-400'}`} />
             <span className="font-medium">Inmate Whitelist</span>
+          </Link>
+          <Link href="/schedule" onClick={closeMenu} className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all group ${pathname === '/schedule' ? 'bg-blue-500/10 text-white' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}>
+            <CalendarClock className={`w-5 h-5 transition-colors ${pathname === '/schedule' ? 'text-blue-400' : 'group-hover:text-blue-400'}`} />
+            <span className="font-medium">Visitation Schedule</span>
           </Link>
           <Link href="/scanner" onClick={closeMenu} className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all group ${pathname === '/scanner' ? 'bg-blue-500/10 text-white' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}>
             <ScanLine className={`w-5 h-5 transition-colors ${pathname === '/scanner' ? 'text-blue-400' : 'group-hover:text-blue-400'}`} />

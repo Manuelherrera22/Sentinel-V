@@ -32,6 +32,13 @@ CREATE TABLE public.inmates (
   last_name TEXT NOT NULL,
   security_level VARCHAR(20) DEFAULT 'medium',
   block_location TEXT,
+  cell_number TEXT,
+  crimes TEXT[],
+  detention_date DATE,
+  release_date DATE,
+  status VARCHAR(20) DEFAULT 'active',
+  date_of_birth DATE,
+  gender VARCHAR(20) DEFAULT 'male',
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 

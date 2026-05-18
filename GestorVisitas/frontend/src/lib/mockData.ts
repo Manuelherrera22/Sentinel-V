@@ -1,8 +1,44 @@
 // frontend/src/lib/mockData.ts
 export const mockInmates = [
-  { id: 'INM-001', name: 'Carlos Mendoza', block: 'Block A', securityLevel: 'Medium', visitors: ['VIS-101', 'VIS-102'] },
-  { id: 'INM-002', name: 'Javier Ramirez', block: 'Block B', securityLevel: 'High', visitors: ['VIS-103'] },
-  { id: 'INM-003', name: 'Roberto Diaz', block: 'Block C', securityLevel: 'Low', visitors: ['VIS-104', 'VIS-105', 'VIS-106'] },
+  { 
+    id: 'INM-001', 
+    name: 'Carlos Mendoza', 
+    block: 'Block A', 
+    cellNumber: 'A-104',
+    securityLevel: 'Medium', 
+    crimes: ['Armed Robbery', 'Assault'],
+    detentionDate: '2019-03-15',
+    releaseDate: '2028-03-15',
+    status: 'active',
+    dob: '1985-11-22',
+    visitors: ['VIS-101', 'VIS-102'] 
+  },
+  { 
+    id: 'INM-002', 
+    name: 'Javier Ramirez', 
+    block: 'Block B', 
+    cellNumber: 'B-201',
+    securityLevel: 'High', 
+    crimes: ['Murder', 'Organized Crime', 'Extortion'],
+    detentionDate: '2015-08-10',
+    releaseDate: '2045-08-10',
+    status: 'active',
+    dob: '1979-05-14',
+    visitors: ['VIS-103'] 
+  },
+  { 
+    id: 'INM-003', 
+    name: 'Roberto Diaz', 
+    block: 'Block C', 
+    cellNumber: 'C-045',
+    securityLevel: 'Low', 
+    crimes: ['Fraud', 'Embezzlement'],
+    detentionDate: '2022-01-20',
+    releaseDate: '2027-01-20',
+    status: 'active',
+    dob: '1992-09-30',
+    visitors: ['VIS-104', 'VIS-105', 'VIS-106'] 
+  },
 ];
 
 export const mockVisitors = [
