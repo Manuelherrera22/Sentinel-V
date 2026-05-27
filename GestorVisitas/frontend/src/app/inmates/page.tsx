@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import { Search, ShieldAlert, CheckCircle2, MoreVertical, Shield, FileText, Calendar, Clock, Key, Scale, Gavel, User, Fingerprint, Loader2, PhoneCall } from 'lucide-react';
 import { checkEligibility } from '@/lib/schedule';
+import Link from 'next/link';
 
 export default function InmatesPage() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -215,18 +216,19 @@ export default function InmatesPage() {
                           const visitor = rel.visitors;
                           if (!visitor) return null;
                           return (
-                            <div key={index} className="flex items-center gap-4 border border-white/10 bg-[#1A1E24] p-4 rounded-2xl hover:bg-white/[0.05] hover:border-blue-500/30 transition-all cursor-default shadow-lg">
-                              <img src={visitor.document_image_url || 'https://i.pravatar.cc/150'} alt={visitor.first_name} className="w-12 h-12 rounded-full object-cover border-2 border-white/10 shadow-inner" />
-                              <div>
-                                <p className="font-bold text-slate-200">{visitor.first_name} {visitor.last_name}</p>
+                            <Link href={`/visitors/${visitor.id}`} key={index} className="flex items-center gap-4 border border-white/10 bg-[#1A1E24] p-4 rounded-2xl hover:bg-white/[0.05] hover:border-blue-500/30 transition-all cursor-pointer shadow-lg group/visitor relative overflow-hidden">
+                              <div className="absolute inset-0 bg-blue-500/0 group-hover/visitor:bg-blue-500/5 transition-colors z-0"></div>
+                              <img src={visitor.document_image_url || 'https://i.pravatar.cc/150'} alt={visitor.first_name} className="w-12 h-12 rounded-full object-cover border-2 border-white/10 shadow-inner relative z-10" />
+                              <div className="relative z-10">
+                                <p className="font-bold text-slate-200 group-hover/visitor:text-blue-400 transition-colors">{visitor.first_name} {visitor.last_name}</p>
                                 <p className="text-xs font-medium text-slate-400 mt-0.5">{rel.relationship} • <span className="font-mono">{visitor.identity_document}</span></p>
                               </div>
-                              <div className="ml-auto">
+                              <div className="ml-auto relative z-10">
                                 <div className="bg-emerald-500/10 p-1.5 rounded-lg border border-emerald-500/20 shadow-[0_0_10px_rgba(16,185,129,0.2)]">
                                   <CheckCircle2 className="w-4 h-4 text-emerald-400" />
                                 </div>
                               </div>
-                            </div>
+                            </Link>
                           );
                         })}
                       </div>

@@ -51,6 +51,14 @@ CREATE TABLE public.visitors (
   phone_number VARCHAR(20),
   document_image_url TEXT,
   is_approved BOOLEAN DEFAULT FALSE,
+  status VARCHAR(20) DEFAULT 'active',
+  date_of_birth DATE,
+  civil_status VARCHAR(50),
+  zip_code VARCHAR(20),
+  residential_address TEXT,
+  visitor_type VARCHAR(50),
+  citizenship VARCHAR(50) DEFAULT 'Filipino',
+  gender VARCHAR(20),
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
@@ -70,7 +78,21 @@ CREATE TABLE public.visits_schedule (
   inmate_id UUID REFERENCES public.inmates(id) ON DELETE CASCADE,
   visitor_id UUID REFERENCES public.visitors(id) ON DELETE CASCADE,
   scheduled_time TIMESTAMPTZ NOT NULL,
+  time_out TIMESTAMPTZ,
+  jail_assignment TEXT DEFAULT 'DANAO CITY JAIL - MD',
   status visit_status DEFAULT 'pending',
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Blacklist History
+CREATE TABLE public.blacklist_history (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  visitor_id UUID REFERENCES public.visitors(id) ON DELETE CASCADE,
+  date_issued DATE NOT NULL,
+  date_from DATE NOT NULL,
+  date_to DATE,
+  remarks TEXT,
+  status VARCHAR(20) DEFAULT 'active',
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
@@ -91,6 +113,7 @@ ALTER TABLE public.visitors ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.inmate_visitors ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.visits_schedule ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.qr_tokens ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.blacklist_history ENABLE ROW LEVEL SECURITY;
 
 -- Admins: CRUD en todas las tablas
 CREATE POLICY "Admins full profiles" ON public.profiles FOR ALL USING (public.is_admin());
@@ -99,6 +122,7 @@ CREATE POLICY "Admins full visitors" ON public.visitors FOR ALL USING (public.is
 CREATE POLICY "Admins full inmate_visitors" ON public.inmate_visitors FOR ALL USING (public.is_admin());
 CREATE POLICY "Admins full visits" ON public.visits_schedule FOR ALL USING (public.is_admin());
 CREATE POLICY "Admins full tokens" ON public.qr_tokens FOR ALL USING (public.is_admin());
+CREATE POLICY "Admins full blacklist" ON public.blacklist_history FOR ALL USING (public.is_admin());
 
 -- Guards: Solo Lectura, excepto actualizaciones en estado de visita y token
 CREATE POLICY "Guards read inmates" ON public.inmates FOR SELECT USING (public.is_guard());
@@ -108,3 +132,4 @@ CREATE POLICY "Guards read visits" ON public.visits_schedule FOR SELECT USING (p
 CREATE POLICY "Guards update visits" ON public.visits_schedule FOR UPDATE USING (public.is_guard());
 CREATE POLICY "Guards read tokens" ON public.qr_tokens FOR SELECT USING (public.is_guard());
 CREATE POLICY "Guards update tokens" ON public.qr_tokens FOR UPDATE USING (public.is_guard());
+CREATE POLICY "Guards read blacklist" ON public.blacklist_history FOR SELECT USING (public.is_guard());

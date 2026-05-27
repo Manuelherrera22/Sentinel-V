@@ -116,72 +116,76 @@ export default function SchedulePage() {
             </div>
           </div>
 
-          {/* Days of Week Row */}
-          <div className="grid grid-cols-7 border-b border-white/5 bg-black/20">
-            {shortDaysOfWeek.map((day, idx) => (
-              <div key={idx} className="py-3 text-center text-xs font-bold text-slate-500 uppercase tracking-widest">
-                {day}
+          <div className="flex-1 overflow-x-auto custom-scrollbar">
+            <div className="min-w-[700px] h-full flex flex-col">
+              {/* Days of Week Row */}
+              <div className="grid grid-cols-7 border-b border-white/5 bg-black/20">
+                {shortDaysOfWeek.map((day, idx) => (
+                  <div key={idx} className="py-3 text-center text-xs font-bold text-slate-500 uppercase tracking-widest">
+                    {day}
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
 
-          {/* Days Grid */}
-          <div className="grid grid-cols-7 flex-1 auto-rows-fr bg-white/[0.01]">
-            {/* Empty Offset Cells */}
-            {Array.from({ length: startDay }).map((_, idx) => (
-              <div key={`empty-${idx}`} className="border-b border-r border-white/5 min-h-[120px] opacity-20"></div>
-            ))}
+              {/* Days Grid */}
+              <div className="grid grid-cols-7 flex-1 auto-rows-fr bg-white/[0.01]">
+                {/* Empty Offset Cells */}
+                {Array.from({ length: startDay }).map((_, idx) => (
+                  <div key={`empty-${idx}`} className="border-b border-r border-white/5 min-h-[120px] opacity-20"></div>
+                ))}
 
-            {/* Date Cells */}
-            {Array.from({ length: daysInMonth }).map((_, idx) => {
-              const dayNum = idx + 1;
-              const dateObj = new Date(currentYear, currentMonth, dayNum);
-              const dayName = daysOfWeek[dateObj.getDay()];
-              const scheduleForDay = (currentSchedule as any)[dayName];
-              const todayFlag = isToday(dayNum);
+                {/* Date Cells */}
+                {Array.from({ length: daysInMonth }).map((_, idx) => {
+                  const dayNum = idx + 1;
+                  const dateObj = new Date(currentYear, currentMonth, dayNum);
+                  const dayName = daysOfWeek[dateObj.getDay()];
+                  const scheduleForDay = (currentSchedule as any)[dayName];
+                  const todayFlag = isToday(dayNum);
 
-              return (
-                <div key={`day-${dayNum}`} className={`border-b border-r border-white/5 min-h-[120px] p-2 flex flex-col transition-colors hover:bg-white/5 relative ${todayFlag ? 'bg-blue-500/5' : ''}`}>
-                  <div className="flex justify-between items-start mb-2">
-                    {todayFlag ? (
-                      <span className="w-7 h-7 flex items-center justify-center rounded-full bg-blue-500 text-white font-bold text-sm shadow-[0_0_15px_rgba(59,130,246,0.5)]">
-                        {dayNum}
-                      </span>
-                    ) : (
-                      <span className="text-slate-400 font-bold text-sm w-7 h-7 flex items-center justify-center">
-                        {dayNum}
-                      </span>
-                    )}
-                  </div>
+                  return (
+                    <div key={`day-${dayNum}`} className={`border-b border-r border-white/5 min-h-[120px] p-2 flex flex-col transition-colors hover:bg-white/5 relative ${todayFlag ? 'bg-blue-500/5' : ''}`}>
+                      <div className="flex justify-between items-start mb-2">
+                        {todayFlag ? (
+                          <span className="w-7 h-7 flex items-center justify-center rounded-full bg-blue-500 text-white font-bold text-sm shadow-[0_0_15px_rgba(59,130,246,0.5)]">
+                            {dayNum}
+                          </span>
+                        ) : (
+                          <span className="text-slate-400 font-bold text-sm w-7 h-7 flex items-center justify-center">
+                            {dayNum}
+                          </span>
+                        )}
+                      </div>
 
-                  {/* Event Pills */}
-                  <div className="flex-1 flex flex-col gap-1.5 overflow-y-auto custom-scrollbar">
-                    {scheduleForDay && dayName !== 'timeSlots' && Object.entries(scheduleForDay).map(([building, dorms]: [string, any]) => {
-                      if (building === 'timeSlots') return null;
-                      const isBuilding1 = building.includes('1');
-                      const pillColor = isBuilding1 
-                        ? 'bg-purple-500/20 text-purple-300 border-purple-500/30' 
-                        : 'bg-pink-500/20 text-pink-300 border-pink-500/30';
+                      {/* Event Pills */}
+                      <div className="flex-1 flex flex-col gap-1.5 overflow-y-auto custom-scrollbar">
+                        {scheduleForDay && dayName !== 'timeSlots' && Object.entries(scheduleForDay).map(([building, dorms]: [string, any]) => {
+                          if (building === 'timeSlots') return null;
+                          const isBuilding1 = building.includes('1');
+                          const pillColor = isBuilding1 
+                            ? 'bg-purple-500/20 text-purple-300 border-purple-500/30' 
+                            : 'bg-pink-500/20 text-pink-300 border-pink-500/30';
 
-                      return (
-                        <div key={building} className={`px-2 py-1.5 rounded-lg border ${pillColor} text-[10px] md:text-xs leading-tight`}>
-                          <div className="font-bold flex items-center gap-1 mb-0.5">
-                            <Building2 className="w-3 h-3 opacity-70" />
-                            {building}
-                          </div>
-                          <div className="opacity-80 line-clamp-1 font-medium">Dorm {formatDorms(dorms)}</div>
-                        </div>
-                      )
-                    })}
-                  </div>
-                </div>
-              );
-            })}
+                          return (
+                            <div key={building} className={`px-2 py-1.5 rounded-lg border ${pillColor} text-[10px] md:text-xs leading-tight`}>
+                              <div className="font-bold flex items-center gap-1 mb-0.5">
+                                <Building2 className="w-3 h-3 opacity-70" />
+                                {building}
+                              </div>
+                              <div className="opacity-80 line-clamp-1 font-medium">Dorm {formatDorms(dorms)}</div>
+                            </div>
+                          )
+                        })}
+                      </div>
+                    </div>
+                  );
+                })}
 
-            {/* Fill remaining cells to complete the grid */}
-            {Array.from({ length: (42 - (startDay + daysInMonth)) % 7 }).map((_, idx) => (
-              <div key={`fill-${idx}`} className="border-b border-r border-white/5 min-h-[120px] opacity-20"></div>
-            ))}
+                {/* Fill remaining cells to complete the grid */}
+                {Array.from({ length: (42 - (startDay + daysInMonth)) % 7 }).map((_, idx) => (
+                  <div key={`fill-${idx}`} className="border-b border-r border-white/5 min-h-[120px] opacity-20"></div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </div>

@@ -59,10 +59,10 @@ const mockInmates = [
 ];
 
 const mockVisitors = [
-  { identity_document: '12345678-9', first_name: 'Ana', last_name: 'Silva', document_image_url: 'https://i.pravatar.cc/150?img=5', is_approved: true },
-  { identity_document: '98765432-1', first_name: 'Luis', last_name: 'Mendoza', document_image_url: 'https://i.pravatar.cc/150?img=11', is_approved: true },
-  { identity_document: '56473829-0', first_name: 'Carmen', last_name: 'Rojas', document_image_url: 'https://i.pravatar.cc/150?img=9', is_approved: true },
-  { identity_document: '10293847-5', first_name: 'Miguel', last_name: 'Diaz', document_image_url: 'https://i.pravatar.cc/150?img=12', is_approved: true },
+  { identity_document: '12345678-9', first_name: 'Ana', last_name: 'Silva', document_image_url: 'https://i.pravatar.cc/150?img=5', is_approved: true, status: 'active', date_of_birth: '1988-04-12', civil_status: 'Married', zip_code: '6014', residential_address: 'Jagobiao Mandaue City', visitor_type: 'Spouse', citizenship: 'Filipino', gender: 'Female' },
+  { identity_document: '98765432-1', first_name: 'Luis', last_name: 'Mendoza', document_image_url: 'https://i.pravatar.cc/150?img=11', is_approved: true, status: 'active', date_of_birth: '2005-11-20', civil_status: 'Single', zip_code: '6000', residential_address: 'Cebu City', visitor_type: 'Son', citizenship: 'Filipino', gender: 'Male' },
+  { identity_document: '56473829-0', first_name: 'Ma. Lourdes', last_name: 'Abasolo', document_image_url: 'https://i.pravatar.cc/150?img=9', is_approved: true, status: 'active', date_of_birth: '1959-02-06', civil_status: 'Married', zip_code: '6014', residential_address: 'Jagobiao Mandaue City', visitor_type: 'Mother', citizenship: 'Filipino', gender: 'Female' },
+  { identity_document: '10293847-5', first_name: 'Miguel', last_name: 'Diaz', document_image_url: 'https://i.pravatar.cc/150?img=12', is_approved: true, status: 'active', date_of_birth: '1995-07-30', civil_status: 'Single', zip_code: '6014', residential_address: 'Mandaue City', visitor_type: 'Brother', citizenship: 'Filipino', gender: 'Male' },
 ];
 
 const inmateVisitorsRelations = [
@@ -102,6 +102,31 @@ async function seed() {
     }
   }
   console.log('Inmate-Visitor relations seeded.');
+
+  // 4. Visits Schedule and Blacklist History
+  const visitorLourdes = visitors.find(v => v.identity_document === '56473829-0');
+  const inmateJavier = inmates.find(i => i.inmate_number === 'INM-002');
+  
+  if (visitorLourdes && inmateJavier) {
+    console.log('Seeding historical records for Ma. Lourdes Abasolo...');
+    
+    // Clean old records first
+    await supabase.from('visits_schedule').delete().eq('visitor_id', visitorLourdes.id);
+    await supabase.from('blacklist_history').delete().eq('visitor_id', visitorLourdes.id);
+
+    // Visits Schedule
+    const { error: visitErr } = await supabase.from('visits_schedule').insert([
+      { inmate_id: inmateJavier.id, visitor_id: visitorLourdes.id, scheduled_time: '2026-05-02T09:57:38Z', time_out: '2026-05-02T10:21:48Z', jail_assignment: 'DANAO CITY JAIL - MD', status: 'completed' },
+      { inmate_id: inmateJavier.id, visitor_id: visitorLourdes.id, scheduled_time: '2025-03-23T09:48:47Z', time_out: '2025-03-23T10:59:02Z', jail_assignment: 'DANAO CITY JAIL - MD', status: 'completed' }
+    ]);
+    if (visitErr) console.error('Error inserting visits schedule', visitErr);
+
+    // Blacklist History
+    const { error: blackErr } = await supabase.from('blacklist_history').insert([
+      { visitor_id: visitorLourdes.id, date_issued: '2023-01-15', date_from: '2023-01-15', date_to: '2023-07-15', remarks: 'Violation of dress code', status: 'expired' }
+    ]);
+    if (blackErr) console.error('Error inserting blacklist history', blackErr);
+  }
   console.log('Seed completed successfully!');
 }
 

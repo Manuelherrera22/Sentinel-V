@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LayoutDashboard, Users, ScanLine, Shield, Menu, X, CalendarClock } from 'lucide-react';
+import { LayoutDashboard, Users, ScanLine, Shield, Menu, X, CalendarClock, BarChart3 } from 'lucide-react';
 
 export default function Navigation({ children }: { children: React.ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -63,6 +63,10 @@ export default function Navigation({ children }: { children: React.ReactNode }) 
           <Link href="/scanner" onClick={closeMenu} className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all group ${pathname === '/scanner' ? 'bg-blue-500/10 text-white' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}>
             <ScanLine className={`w-5 h-5 transition-colors ${pathname === '/scanner' ? 'text-blue-400' : 'group-hover:text-blue-400'}`} />
             <span className="font-medium">Access Scanner</span>
+          </Link>
+          <Link href="/statistics" onClick={closeMenu} className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all group ${pathname === '/statistics' ? 'bg-blue-500/10 text-white' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}>
+            <BarChart3 className={`w-5 h-5 transition-colors ${pathname === '/statistics' ? 'text-blue-400' : 'group-hover:text-blue-400'}`} />
+            <span className="font-medium">Visitor Logs & Stats</span>
           </Link>
         </nav>
         
